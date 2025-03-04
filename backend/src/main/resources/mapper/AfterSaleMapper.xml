@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suitcustom.mapper.AfterSaleMapper">
+    
+    <resultMap id="BaseResultMap" type="com.suitcustom.entity.AfterSale">
+        <id column="id" property="id"/>
+        <result column="order_id" property="orderId"/>
+        <result column="user_id" property="userId"/>
+        <result column="type" property="type"/>
+        <result column="reason" property="reason"/>
+        <result column="description" property="description"/>
+        <result column="images" property="images"/>
+        <result column="refund_amount" property="refundAmount"/>
+        <result column="status" property="status"/>
+        <result column="result" property="result"/>
+        <result column="handler" property="handler"/>
+        <result column="handle_time" property="handleTime"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, order_id, user_id, type, reason, description, images, refund_amount,
+        status, result, handler, handle_time, remark, create_time, update_time
+    </sql>
+
+    <!-- 插入售后记录 -->
+    <insert id="insert" parameterType="com.suitcustom.entity.AfterSale" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO after_sale (
+            order_id, user_id, type, reason, description, images, refund_amount,
+            status, result, handler, handle_time, remark, create_time, update_time
+        )
+        VALUES (
+            #{orderId}, #{userId}, #{type}, #{reason}, #{description}, #{images}, #{refundAmount},
+            #{status}, #{result}, #{handler}, #{handleTime}, #{remark}, NOW(), NOW()
+        )
+    </insert>
+
+    <!-- 更新售后记录 -->
+    <update id="update" parameterType="com.suitcustom.entity.AfterSale">
+        UPDATE after_sale
+        <set>
+            <if test="orderId != null">order_id = #{orderId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="refundAmount != null">refund_amount = #{refundAmount},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="handler != null">handler = #{handler},</if>
+            <if test="handleTime != null">handle_time = #{handleTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            update_time = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 更新处理状态 -->
+    <update id="updateStatus">
+        UPDATE after_sale
+        SET status = #{status},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 处理售后服务 -->
+    <update id="handle">
+        UPDATE after_sale
+        SET result = #{result},
+            handler = #{handler},
+            status = 2,
+            handle_time = NOW(),
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID删除售后记录 -->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        DELETE FROM after_sale WHERE id = #{id}
+    </delete>
+
+    <!-- 批量删除售后记录 -->
+    <delete id="deleteBatchIds">
+        DELETE FROM after_sale WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据ID查询售后记录 -->
+    <select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM after_sale
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据订单ID查询售后记录 -->
+    <select id="selectByOrderId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM after_sale
+        WHERE order_id = #{orderId}
+    </select>
+
+    <!-- 根据用户ID查询售后记录列表 -->
+    <select id="selectByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM after_sale
+        WHERE user_id = #{userId}
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 查询售后记录列表 -->
+    <select id="selectList" parameterType="com.suitcustom.entity.AfterSale" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM after_sale
+        <where>
+            <if test="userId != null">AND user_id = #{userId}</if>
+            <if test="orderId != null">AND order_id = #{orderId}</if>
+            <if test="status != null">AND status = #{status}</if>
+            <if test="type != null">AND type = #{type}</if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 查询所有售后记录 -->
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM after_sale
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 根据状态查询售后记录 -->
+    <select id="selectByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM after_sale
+        WHERE status = #{status}
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 分页查询售后记录 -->
+    <select id="selectPage" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/>
+        FROM after_sale
+        <where>
+            <if test="userId != null">AND user_id = #{userId}</if>
+            <if test="status != null">AND status = #{status}</if>
+            <if test="type != null">AND type = #{type}</if>
+        </where>
+        ORDER BY create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <!-- 统计售后记录总数 -->
+    <select id="countTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM after_sale
+        <where>
+            <if test="userId != null">AND user_id = #{userId}</if>
+            <if test="status != null">AND status = #{status}</if>
+            <if test="type != null">AND type = #{type}</if>
+        </where>
+    </select>
+</mapper> 

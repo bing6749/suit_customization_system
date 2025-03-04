@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS `after_sale` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `order_id` bigint(20) NOT NULL COMMENT '订单ID',
+  `user_id` bigint(20) NOT NULL COMMENT '用户ID',
+  `type` tinyint(4) NOT NULL COMMENT '售后类型：1退款 2退货退款 3换货 4维修',
+  `reason` varchar(100) NOT NULL COMMENT '售后原因',
+  `description` varchar(500) DEFAULT NULL COMMENT '问题描述',
+  `images` json DEFAULT NULL COMMENT '图片列表',
+  `refund_amount` decimal(10,2) DEFAULT NULL COMMENT '退款金额',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态：0待处理 1处理中 2已完成 3已拒绝',
+  `result` varchar(500) DEFAULT NULL COMMENT '处理结果',
+  `handler` varchar(50) DEFAULT NULL COMMENT '处理人',
+  `handle_time` datetime DEFAULT NULL COMMENT '处理时间',
+  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_order_id` (`order_id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_status` (`status`),
+  KEY `idx_create_time` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='售后服务表'; 

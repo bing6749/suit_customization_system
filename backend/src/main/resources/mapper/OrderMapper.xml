@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suitcustom.mapper.OrderMapper">
+    
+    <!-- 结果映射 -->
+    <resultMap type="com.suitcustom.entity.Order" id="OrderResult">
+        <id property="id" column="id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="customizationId" column="customization_id"/>
+        <result property="amount" column="amount"/>
+        <result property="payAmount" column="pay_amount"/>
+        <result property="payType" column="pay_type"/>
+        <result property="payTime" column="pay_time"/>
+        <result property="payTradeNo" column="pay_trade_no"/>
+        <result property="receiverName" column="receiver_name"/>
+        <result property="receiverPhone" column="receiver_phone"/>
+        <result property="receiverAddress" column="receiver_address"/>
+        <result property="remark" column="remark"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_no, user_id, customization_id, amount, pay_amount, pay_type, pay_time,
+        pay_trade_no, receiver_name, receiver_phone, receiver_address, remark, status,
+        create_time, update_time
+    </sql>
+    
+    <!-- 根据ID查询订单 -->
+    <select id="selectById" resultMap="OrderResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from `order`
+        where id = #{id}
+    </select>
+    
+    <!-- 根据订单号查询订单 -->
+    <select id="selectByOrderNo" resultMap="OrderResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from `order`
+        where order_no = #{orderNo}
+    </select>
+    
+    <!-- 根据用户ID查询订单列表 -->
+    <select id="selectByUserId" resultMap="OrderResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from `order`
+        where user_id = #{userId}
+        order by create_time desc
+    </select>
+    
+    <!-- 查询订单列表 -->
+    <select id="selectList" resultMap="OrderResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from `order`
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <!-- 新增订单 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into `order` (
+            order_no, user_id, customization_id, amount, pay_amount, pay_type,
+            receiver_name, receiver_phone, receiver_address, remark, status
+        ) values (
+            #{orderNo}, #{userId}, #{customizationId}, #{amount}, #{payAmount}, #{payType},
+            #{receiverName}, #{receiverPhone}, #{receiverAddress}, #{remark}, #{status}
+        )
+    </insert>
+    
+    <!-- 更新订单 -->
+    <update id="update">
+        update `order`
+        <set>
+            <if test="payType != null">pay_type = #{payType},</if>
+            <if test="payAmount != null">pay_amount = #{payAmount},</if>
+            <if test="payTime != null">pay_time = #{payTime},</if>
+            <if test="payTradeNo != null">pay_trade_no = #{payTradeNo},</if>
+            <if test="receiverName != null and receiverName != ''">receiver_name = #{receiverName},</if>
+            <if test="receiverPhone != null and receiverPhone != ''">receiver_phone = #{receiverPhone},</if>
+            <if test="receiverAddress != null and receiverAddress != ''">receiver_address = #{receiverAddress},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    <!-- 删除订单 -->
+    <delete id="deleteById">
+        delete from `order` where id = #{id}
+    </delete>
+    
+    <!-- 批量删除订单 -->
+    <delete id="deleteBatchIds">
+        delete from `order` where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <!-- 更新订单状态 -->
+    <update id="updateStatus">
+        update `order` set status = #{status} where id = #{id}
+    </update>
+    
+    <!-- 获取订单统计信息 -->
+    <select id="getOrderStatistics" resultType="java.util.Map">
+        SELECT
+            COUNT(*) as totalOrders,
+            COUNT(CASE WHEN status = 0 THEN 1 END) as pendingPayment,
+            COUNT(CASE WHEN status = 1 THEN 1 END) as paid,
+            COUNT(CASE WHEN status = 2 THEN 1 END) as inProduction,
+            COUNT(CASE WHEN status = 3 THEN 1 END) as shipped,
+            COUNT(CASE WHEN status = 4 THEN 1 END) as completed,
+            COUNT(CASE WHEN status = 5 THEN 1 END) as cancelled,
+            COUNT(CASE WHEN status = 6 THEN 1 END) as refunded,
+            SUM(amount) as totalAmount,
+            SUM(CASE WHEN status = 1 THEN amount ELSE 0 END) as paidAmount
+        FROM `order`
+        <where>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="startTime != null">
+                and create_time >= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+    
+</mapper> 

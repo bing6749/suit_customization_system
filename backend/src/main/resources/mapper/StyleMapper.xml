@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suitcustom.mapper.StyleMapper">
+    
+    <!-- 结果映射 -->
+    <resultMap type="com.suitcustom.entity.Style" id="StyleResult">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="code" column="code"/>
+        <result property="type" column="type"/>
+        <result property="image" column="image"/>
+        <result property="model" column="model"/>
+        <result property="description" column="description"/>
+        <result property="price" column="price"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, code, type, image, model, description, price, status, create_time, update_time
+    </sql>
+    
+    <!-- 根据ID查询款式 -->
+    <select id="selectById" resultMap="StyleResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from style
+        where id = #{id}
+    </select>
+    
+    <!-- 根据编码查询款式 -->
+    <select id="selectByCode" resultMap="StyleResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from style
+        where code = #{code}
+    </select>
+    
+    <!-- 查询款式列表 -->
+    <select id="selectList" resultMap="StyleResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from style
+        <where>
+            <if test="name != null and name != ''">
+                AND name like concat('%', #{name}, '%')
+            </if>
+            <if test="code != null and code != ''">
+                AND code = #{code}
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <!-- 新增款式 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into style (
+            name, code, type, image, model, description, price, status
+        ) values (
+            #{name}, #{code}, #{type}, #{image}, #{model}, #{description}, #{price}, #{status}
+        )
+    </insert>
+    
+    <!-- 更新款式 -->
+    <update id="update">
+        update style
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="code != null and code != ''">code = #{code},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="image != null">image = #{image},</if>
+            <if test="model != null">model = #{model},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    <!-- 删除款式 -->
+    <delete id="deleteById">
+        delete from style where id = #{id}
+    </delete>
+    
+    <!-- 批量删除款式 -->
+    <delete id="deleteBatchIds">
+        delete from style where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <!-- 更新款式状态 -->
+    <update id="updateStatus">
+        update style set status = #{status} where id = #{id}
+    </update>
+</mapper> 

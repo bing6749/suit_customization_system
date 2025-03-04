@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suitcustom.mapper.ProductionStatusMapper">
+    
+    <!-- 结果映射 -->
+    <resultMap type="com.suitcustom.entity.ProductionStatus" id="ProductionStatusResult">
+        <id property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="stage" column="stage"/>
+        <result property="status" column="status"/>
+        <result property="startTime" column="start_time"/>
+        <result property="finishTime" column="finish_time"/>
+        <result property="handler" column="handler"/>
+        <result property="remark" column="remark"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+    
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_id, order_no, stage, status, start_time, finish_time,
+        handler, remark, create_time, update_time
+    </sql>
+    
+    <!-- 根据ID查询生产状态 -->
+    <select id="selectById" resultMap="ProductionStatusResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from production_status
+        where id = #{id}
+    </select>
+    
+    <!-- 根据订单ID查询生产状态 -->
+    <select id="selectByOrderId" resultMap="ProductionStatusResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from production_status
+        where order_id = #{orderId}
+    </select>
+    
+    <!-- 查询生产状态列表 -->
+    <select id="selectList" resultMap="ProductionStatusResult">
+        select 
+        <include refid="Base_Column_List"/>
+        from production_status
+        <where>
+            <if test="orderId != null">
+                AND order_id = #{orderId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="handler != null and handler != ''">
+                AND handler = #{handler}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <!-- 新增生产状态 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into production_status (
+            order_id, order_no, stage, status, start_time,
+            handler, remark
+        ) values (
+            #{orderId}, #{orderNo}, #{stage}, #{status}, #{startTime},
+            #{handler}, #{remark}
+        )
+    </insert>
+    
+    <!-- 更新生产状态 -->
+    <update id="update">
+        update production_status
+        <set>
+            <if test="status != null">status = #{status},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="finishTime != null">finish_time = #{finishTime},</if>
+            <if test="handler != null and handler != ''">handler = #{handler},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    <!-- 删除生产状态 -->
+    <delete id="deleteById">
+        delete from production_status where id = #{id}
+    </delete>
+    
+    <!-- 批量删除生产状态 -->
+    <delete id="deleteBatchIds">
+        delete from production_status where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <!-- 更新生产状态 -->
+    <update id="updateStatus">
+        update production_status set 
+            status = #{status},
+            finish_time = CASE WHEN #{status} = 5 THEN NOW() ELSE finish_time END
+        where id = #{id}
+    </update>
+    
+    <!-- 更新生产阶段 -->
+    <update id="updateStage">
+        update production_status set stage = #{stage}
+        where id = #{id}
+    </update>
+    
+</mapper> 

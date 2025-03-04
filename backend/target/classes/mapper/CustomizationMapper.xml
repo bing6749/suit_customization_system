@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.suitcustom.mapper.CustomizationMapper">
+    
+    <!-- 结果映射 -->
+    <resultMap id="BaseResultMap" type="com.suitcustom.entity.Customization">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="style_id" property="styleId"/>
+        <result column="fabric_id" property="fabricId"/>
+        <result column="name" property="name"/>
+        <result column="size_info" property="sizeInfo" typeHandler="com.suitcustom.handler.JsonTypeHandler"/>
+        <result column="options" property="options" typeHandler="com.suitcustom.handler.JsonTypeHandler"/>
+        <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <result column="progress" property="progress"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 基础列 -->
+    <sql id="Base_Column_List">
+        id, user_id, style_id, fabric_id, name, size_info, options, remark, status, progress,
+        create_time, update_time
+    </sql>
+
+    <!-- 查询单个 -->
+    <select id="selectById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM customization
+        WHERE id = #{id}
+    </select>
+
+    <!-- 条件查询 -->
+    <select id="selectList" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM customization
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="styleId != null">
+                AND style_id = #{styleId}
+            </if>
+            <if test="fabricId != null">
+                AND fabric_id = #{fabricId}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- 新增 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO customization (
+            user_id, style_id, fabric_id, name, size_info, options, remark, status, progress,
+            create_time, update_time
+        ) VALUES (
+            #{userId}, #{styleId}, #{fabricId}, #{name}, #{sizeInfo}, #{options}, #{remark},
+            #{status}, #{progress}, #{createTime}, #{updateTime}
+        )
+    </insert>
+
+    <!-- 更新 -->
+    <update id="update">
+        UPDATE customization
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sizeInfo != null">
+                size_info = #{sizeInfo},
+            </if>
+            <if test="options != null">
+                options = #{options},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="progress != null">
+                progress = #{progress},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        DELETE FROM customization WHERE id = #{id}
+    </delete>
+
+    <!-- 批量删除 -->
+    <delete id="deleteBatchIds">
+        DELETE FROM customization WHERE id IN
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 统计总数 -->
+    <select id="countTotal" resultType="int">
+        SELECT COUNT(*) FROM customization
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND create_time >= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <!-- 统计状态数量 -->
+    <select id="countByStatus" resultType="int">
+        SELECT COUNT(*) FROM customization
+        <where>
+            <if test="userId != null">
+                AND user_id = #{userId}
+            </if>
+            AND status = #{status}
+            <if test="startTime != null and startTime != ''">
+                AND create_time >= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND create_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+
+</mapper> 
