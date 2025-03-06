@@ -1,9 +1,12 @@
 package com.suitcustom.entity;
 
 import lombok.Data;
+import org.apache.ibatis.type.JdbcType;
+import com.suitcustom.handler.JsonTypeHandler;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+import java.math.BigDecimal;
 
 /**
  * 定制实体类
@@ -19,6 +22,11 @@ public class Customization implements Serializable {
    * ID
    */
   private Long id;
+
+  /**
+   * 定制编号(格式：CUST202503007)
+   */
+  private String code;
 
   /**
    * 用户ID
@@ -39,6 +47,11 @@ public class Customization implements Serializable {
    * 定制名称
    */
   private String name;
+
+  /**
+   * 定制价格
+   */
+  private BigDecimal price;
 
   /**
    * 尺寸信息(JSON)

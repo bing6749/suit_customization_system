@@ -14,6 +14,11 @@ import java.util.List;
 public interface CustomizationMapper {
 
   /**
+   * 获取当前月份的最大编号
+   */
+  String getMaxCodeForCurrentMonth();
+
+  /**
    * 根据ID查询定制
    */
   Customization selectById(@Param("id") Long id);

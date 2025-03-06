@@ -1,6 +1,18 @@
 @echo off
 set TOKEN=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0dXNlcjEiLCJpYXQiOjE3NDA5OTQ5NzgsImV4cCI6MTgyNzM5NDk3OH0.b-qj7Er__c0P-W5RYgcgkkkLegmAMO-pNW-EhdEX0jE
 
+echo Testing login...
+curl.exe -X POST "http://localhost:8080/api/user/login" ^
+-H "Content-Type: application/json" ^
+-d "{\"username\":\"testuser1\",\"password\":\"123456\"}"
+echo.
+
+echo Testing register...
+curl.exe -X POST "http://localhost:8080/api/user/register" ^
+-H "Content-Type: application/json" ^
+-d "{\"username\":\"newuser1\",\"password\":\"Password123\",\"confirmPassword\":\"Password123\",\"name\":\"New User\",\"phone\":\"13800138002\",\"email\":\"newuser@example.com\"}"
+echo.
+
 echo Testing get user info...
 curl.exe -X GET "http://localhost:8080/api/user/info?userId=4" -H "Authorization: Bearer %TOKEN%"
 echo.

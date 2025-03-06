@@ -507,14 +507,72 @@
 
 ## 6. 用户管理模块
 
-### 6.1 获取用户信息
+### 6.1 用户登录
+
+- **接口名**: POST /api/user/login
+- **功能**: 用户登录
+- **参数**:
+```json
+{
+  "username": string, // 用户名
+  "password": string  // 密码
+}
+```
+- **返回**:
+```json
+{
+  "code": 200,
+  "msg": "登录成功",
+  "data": {
+    "token": string,    // JWT token
+    "userInfo": {
+      "id": number,     // 用户ID
+      "username": string, // 用户名
+      "name": string,    // 姓名
+      "phone": string,   // 手机号
+      "email": string,   // 邮箱
+      "avatar": string,  // 头像URL
+      "gender": number,  // 性别(0:未知,1:男,2:女)
+      "status": number   // 状态(0:禁用,1:正常)
+    }
+  }
+}
+```
+
+### 6.2 用户注册
+
+- **接口名**: POST /api/user/register
+- **功能**: 用户注册
+- **参数**:
+```json
+{
+  "username": string,       // 用户名
+  "password": string,       // 密码
+  "confirmPassword": string, // 确认密码
+  "name": string,          // 姓名
+  "phone": string,         // 手机号
+  "email": string          // 邮箱
+}
+```
+- **返回**:
+```json
+{
+  "code": 200,
+  "msg": "注册成功",
+  "data": {
+    "id": number      // 新注册用户的ID
+  }
+}
+```
+
+### 6.3 获取用户信息
 
 - **接口名**: GET /api/user/info
 - **功能**: 获取用户详细信息
 - **参数**: userId (查询参数)
 - **返回**: 用户信息对象
 
-### 6.2 更新用户信息
+### 6.4 更新用户信息
 
 - **接口名**: PUT /api/user/info
 - **功能**: 更新用户信息
@@ -531,7 +589,7 @@
 ```
 - **返回**: 无
 
-### 6.3 更新密码
+### 6.5 更新密码
 
 - **接口名**: PUT /api/user/password
 - **功能**: 更新用户密码
@@ -540,7 +598,7 @@
   - password: string // 新密码
 - **返回**: 无
 
-### 6.4 更新头像
+### 6.6 更新头像
 
 - **接口名**: PUT /api/user/avatar
 - **功能**: 更新用户头像
@@ -549,28 +607,28 @@
   - avatar: string // 头像URL
 - **返回**: 无
 
-### 6.5 检查用户名是否存在
+### 6.7 检查用户名是否存在
 
 - **接口名**: GET /api/user/check/username
 - **功能**: 检查用户名是否已存在
 - **参数**: username (查询参数)
 - **返回**: 布尔值
 
-### 6.6 检查手机号是否存在
+### 6.8 检查手机号是否存在
 
 - **接口名**: GET /api/user/check/phone
 - **功能**: 检查手机号是否已存在
 - **参数**: phone (查询参数)
 - **返回**: 布尔值
 
-### 6.7 获取用户列表
+### 6.9 获取用户列表
 
 - **接口名**: GET /api/user/list
 - **功能**: 获取用户列表
 - **参数**: 无
 - **返回**: 用户信息对象数组
 
-### 6.8 更新用户状态
+### 6.10 更新用户状态
 
 - **接口名**: PUT /api/user/status
 - **功能**: 更新用户状态
@@ -579,7 +637,7 @@
   - status: number // 状态
 - **返回**: 无
 
-### 6.9 重置密码
+### 6.11 重置密码
 
 - **接口名**: PUT /api/user/reset/password
 - **功能**: 重置用户密码

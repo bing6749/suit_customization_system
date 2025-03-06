@@ -1,6 +1,7 @@
 package com.suitcustom.handler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
@@ -18,43 +19,53 @@ import java.util.Map;
  * @author suitcustom
  */
 @MappedTypes(Map.class)
-public class JsonTypeHandler extends BaseTypeHandler<Map<String, Object>> {
+public class JsonTypeHandler extends BaseTypeHandler<Object> {
 
   private static final ObjectMapper MAPPER = new ObjectMapper();
 
   @Override
-  public void setNonNullParameter(PreparedStatement ps, int i, Map<String, Object> parameter, JdbcType jdbcType)
+  public void setNonNullParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType)
       throws SQLException {
     try {
-      ps.setString(i, MAPPER.writeValueAsString(parameter));
+      String json;
+      if (parameter instanceof String) {
+        json = (String) parameter;
+      } else {
+        json = MAPPER.writeValueAsString(parameter);
+      }
+      ps.setString(i, json);
     } catch (JsonProcessingException e) {
-      throw new SQLException("Error converting Map to JSON", e);
+      throw new SQLException("Error converting Object to JSON", e);
     }
   }
 
   @Override
-  public Map<String, Object> getNullableResult(ResultSet rs, String columnName) throws SQLException {
+  public Object getNullableResult(ResultSet rs, String columnName) throws SQLException {
     String json = rs.getString(columnName);
     return parseJson(json);
   }
 
   @Override
-  public Map<String, Object> getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+  public Object getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
     String json = rs.getString(columnIndex);
     return parseJson(json);
   }
 
   @Override
-  public Map<String, Object> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+  public Object getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
     String json = cs.getString(columnIndex);
     return parseJson(json);
   }
 
-  private Map<String, Object> parseJson(String json) throws SQLException {
+  private Object parseJson(String json) throws SQLException {
+    if (json == null) {
+      return null;
+    }
     try {
-      return json == null ? null : MAPPER.readValue(json, Map.class);
+      return MAPPER.readValue(json, new TypeReference<Map<String, Object>>() {
+      });
     } catch (JsonProcessingException e) {
-      throw new SQLException("Error converting JSON to Map", e);
+      throw new SQLException("Error converting JSON to Object", e);
     }
   }
 }

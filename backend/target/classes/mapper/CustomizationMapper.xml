@@ -5,10 +5,12 @@
     <!-- 结果映射 -->
     <resultMap id="BaseResultMap" type="com.suitcustom.entity.Customization">
         <id column="id" property="id"/>
+        <result column="code" property="code"/>
         <result column="user_id" property="userId"/>
         <result column="style_id" property="styleId"/>
         <result column="fabric_id" property="fabricId"/>
         <result column="name" property="name"/>
+        <result column="price" property="price"/>
         <result column="size_info" property="sizeInfo" typeHandler="com.suitcustom.handler.JsonTypeHandler"/>
         <result column="options" property="options" typeHandler="com.suitcustom.handler.JsonTypeHandler"/>
         <result column="remark" property="remark"/>
@@ -20,7 +22,7 @@
 
     <!-- 基础列 -->
     <sql id="Base_Column_List">
-        id, user_id, style_id, fabric_id, name, size_info, options, remark, status, progress,
+        id, code, user_id, style_id, fabric_id, name, price, size_info, options, remark, status, progress,
         create_time, update_time
     </sql>
 
@@ -54,14 +56,23 @@
         ORDER BY create_time DESC
     </select>
 
+    <!-- 获取当前月份的最大编号 -->
+    <select id="getMaxCodeForCurrentMonth" resultType="string">
+        SELECT code FROM customization 
+        WHERE code LIKE CONCAT('CUST', DATE_FORMAT(NOW(), '%Y%m'), '%')
+        ORDER BY code DESC LIMIT 1
+    </select>
+
     <!-- 新增 -->
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO customization (
-            user_id, style_id, fabric_id, name, size_info, options, remark, status, progress,
+            code, user_id, style_id, fabric_id, name, price, size_info, options, remark, status, progress,
             create_time, update_time
         ) VALUES (
-            #{userId}, #{styleId}, #{fabricId}, #{name}, #{sizeInfo}, #{options}, #{remark},
-            #{status}, #{progress}, #{createTime}, #{updateTime}
+            #{code}, #{userId}, #{styleId}, #{fabricId}, #{name}, #{price},
+            #{sizeInfo,typeHandler=com.suitcustom.handler.JsonTypeHandler}, 
+            #{options,typeHandler=com.suitcustom.handler.JsonTypeHandler}, 
+            #{remark}, #{status}, #{progress}, #{createTime}, #{updateTime}
         )
     </insert>
 
@@ -72,11 +83,14 @@
             <if test="name != null">
                 name = #{name},
             </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
             <if test="sizeInfo != null">
-                size_info = #{sizeInfo},
+                size_info = #{sizeInfo,typeHandler=com.suitcustom.handler.JsonTypeHandler},
             </if>
             <if test="options != null">
-                options = #{options},
+                options = #{options,typeHandler=com.suitcustom.handler.JsonTypeHandler},
             </if>
             <if test="remark != null">
                 remark = #{remark},

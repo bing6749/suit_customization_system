@@ -4,6 +4,7 @@ import com.suitcustom.entity.Customization;
 import com.suitcustom.mapper.CustomizationMapper;
 import com.suitcustom.service.CustomizationService;
 import com.suitcustom.common.exception.BusinessException;
+import com.suitcustom.utils.CodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.annotation.Resource;
 
 /**
  * 定制服务实现类
@@ -20,7 +23,7 @@ import java.util.Map;
 @Service
 public class CustomizationServiceImpl implements CustomizationService {
 
-  @Autowired
+  @Resource
   private CustomizationMapper customizationMapper;
 
   @Override
@@ -43,9 +46,14 @@ public class CustomizationServiceImpl implements CustomizationService {
   @Override
   @Transactional
   public Long create(Customization customization) {
-    // 设置初始状态和进度
-    customization.setStatus(0); // 草稿状态
-    customization.setProgress(0); // 初始进度0%
+    // 生成定制编号
+    String maxCode = customizationMapper.getMaxCodeForCurrentMonth();
+    String code = CodeGenerator.generateCustomizationCode(maxCode);
+    customization.setCode(code);
+
+    // 设置初始状态和时间
+    customization.setStatus(0);
+    customization.setProgress(0);
     customization.setCreateTime(new Date());
     customization.setUpdateTime(new Date());
 
