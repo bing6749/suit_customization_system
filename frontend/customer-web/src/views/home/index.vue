@@ -9,7 +9,7 @@
           height="40"
           :src="userStore.userInfo?.avatar || '/images/default-avatar.png'"
         />
-        <span class="username">{{ userStore.userInfo?.name || "未登录" }}</span>
+        <span class="username">{{ userStore.userInfo?.username || "未登录" }}</span>
       </div>
       <van-button size="small" plain type="danger" @click="handleLogout">
         退出登录
@@ -18,7 +18,7 @@
 
     <!-- 轮播广告 -->
     <van-swipe class="banner" :autoplay="3000" indicator-color="white">
-      <van-swipe-item v-for="(banner, index) in banners" :key="index">
+      <van-swipe-item v-for="(banner, index) in swiperList" :key="index">
         <img :src="banner.image" :alt="banner.title" />
       </van-swipe-item>
     </van-swipe>
@@ -52,10 +52,10 @@
       </div>
       <div class="style-list">
         <van-card
-          v-for="(style, index) in popularStyles"
+          v-for="(style, index) in productList"
           :key="index"
           :price="style.price"
-          :title="style.name"
+          :title="style.title"
           :thumb="style.image"
         >
           <template #tags>
@@ -99,21 +99,16 @@ const router = useRouter();
 const userStore = useUserStore();
 
 // 轮播图数据
-const banners = ref([
+const swiperList = ref([
   {
+    id: 1,
     image:
-      "https://img.alicdn.com/imgextra/i4/2215303353683/O1CN01NxLGWK1MNmGwL6mAq_!!2215303353683.jpg",
-    title: "春季新品",
+      "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6",
   },
   {
+    id: 2,
     image:
-      "https://img.alicdn.com/imgextra/i1/2215303353683/O1CN01Zp7xgA1MNmGxKzCwR_!!2215303353683.jpg",
-    title: "商务定制",
-  },
-  {
-    image:
-      "https://img.alicdn.com/imgextra/i2/2215303353683/O1CN01FgQX8q1MNmGvNk5zh_!!2215303353683.jpg",
-    title: "婚礼西服",
+      "https://images.pexels.com/photos/769745/pexels-photo-769745.jpeg",
   },
 ]);
 
@@ -140,34 +135,34 @@ const quickEntries = ref([
     path: "/service",
   },
 ]);
-
 // 热门款式
-const popularStyles = ref([
+const productList = ref([
   {
     id: 1,
-    name: "商务精英西服",
-    price: 1999,
-    category: "商务",
-    image:
-      "https://img.alicdn.com/imgextra/i3/2215303353683/O1CN01h4x1Fn1MNmGwL4WlN_!!2215303353683.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Mens_suit_01.jpg", // Wikimedia正装图片
+    title: "商务正装",
+    desc: "优质面料，精致剪裁",
   },
   {
     id: 2,
-    name: "婚礼定制西服",
-    price: 2999,
-    category: "婚礼",
-    image:
-      "https://img.alicdn.com/imgextra/i4/2215303353683/O1CN01KYApwx1MNmGxKyNUa_!!2215303353683.jpg",
+    image: "https://images.pexels.com/photos/769745/pexels-photo-769745.jpeg", // Pexels休闲西装
+    title: "休闲西装",
+    desc: "舒适时尚，彰显品味",
   },
   {
     id: 3,
-    name: "休闲西服",
-    price: 1599,
-    category: "休闲",
-    image:
-      "https://img.alicdn.com/imgextra/i1/2215303353683/O1CN01jw5V8P1MNmGxKz0Tn_!!2215303353683.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Wedding_dress_01.jpg", // Wikimedia婚纱
+    title: "婚礼礼服",
+    desc: "定制专属，完美瞬间",
+  },
+  {
+    id: 4,
+    image: "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6", // Unsplash定制西装
+    title: "高级定制",
+    desc: "匠心工艺，尊贵体验",
   },
 ]);
+
 
 // 定制流程
 const customizeSteps = ref([
@@ -206,7 +201,6 @@ const handleLogout = () => {
     }
   });
 };
-
 </script>
 
 <style lang="scss" scoped>

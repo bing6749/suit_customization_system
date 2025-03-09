@@ -39,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
     String orderNo = generateOrderNo();
     order.setOrderNo(orderNo);
     order.setStatus(0); // 待支付状态
+    order.setReceiverAddress("default address");
     orderMapper.insert(order);
     return order.getId();
   }

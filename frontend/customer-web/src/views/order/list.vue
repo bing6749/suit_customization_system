@@ -1,11 +1,11 @@
 <template>
   <div class="order-list">
     <!-- 订单状态切换 -->
-    <van-tabs v-model:active="activeTab" sticky>
+    <van-tabs v-model="activeTab" sticky>
       <van-tab title="全部" />
-      <van-tab :title="`待付款(${statistics.pendingPay || 0})`" />
-      <van-tab :title="`待发货(${statistics.pendingShip || 0})`" />
-      <van-tab :title="`待收货(${statistics.pendingReceive || 0})`" />
+      <van-tab :title="`待支付(${statistics.pendingPay || 0})`" />
+      <van-tab :title="`生产中(${statistics.producing || 0})`" />
+      <van-tab :title="`已发货(${statistics.shipped || 0})`" />
       <van-tab :title="`已完成(${statistics.completed || 0})`" />
     </van-tabs>
 
@@ -13,7 +13,7 @@
     <div class="order-list-content">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
-          v-model:loading="loading"
+          v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
           @load="onLoad"
@@ -34,14 +34,14 @@
                 </p>
                 <p class="address">地址：{{ order.receiverAddress }}</p>
                 <p class="amount">
-                  金额：¥{{ (order.amount / 100).toFixed(2) }}
+                  金额：¥{{ Number(order.amount).toFixed(2) }}
                 </p>
                 <p class="time">下单时间：{{ formatTime(order.createTime) }}</p>
               </div>
             </div>
 
             <div class="order-footer">
-              <!-- 待付款状态 -->
+              <!-- 待支付状态 -->
               <template v-if="order.status === OrderStatus.PENDING_PAY">
                 <van-button
                   size="small"
@@ -55,8 +55,14 @@
                 </van-button>
               </template>
 
-              <!-- 待发货状态 -->
-              <template v-if="order.status === OrderStatus.PENDING_SHIP">
+              <!-- 已支付/生产中状态 -->
+              <template
+                v-if="
+                  [OrderStatus.PAID, OrderStatus.PRODUCING].includes(
+                    order.status
+                  )
+                "
+              >
                 <van-button
                   size="small"
                   type="primary"
@@ -66,8 +72,8 @@
                 </van-button>
               </template>
 
-              <!-- 待收货状态 -->
-              <template v-if="order.status === OrderStatus.PENDING_RECEIVE">
+              <!-- 已发货状态 -->
+              <template v-if="order.status === OrderStatus.SHIPPED">
                 <van-button
                   size="small"
                   type="default"
@@ -95,6 +101,38 @@
                 </van-button>
                 <van-button
                   size="small"
+                  type="default"
+                  @click="applyRefund(order.id)"
+                >
+                  申请退款
+                </van-button>
+                <van-button
+                  size="small"
+                  type="danger"
+                  plain
+                  @click="deleteOrder(order.id)"
+                >
+                  删除订单
+                </van-button>
+              </template>
+
+              <!-- 已取消/已退款状态 -->
+              <template
+                v-if="
+                  [OrderStatus.CANCELED, OrderStatus.REFUNDED].includes(
+                    order.status
+                  )
+                "
+              >
+                <van-button
+                  size="small"
+                  type="default"
+                  @click="goToDetail(order.id)"
+                >
+                  查看详情
+                </van-button>
+                <van-button
+                  size="small"
                   type="danger"
                   plain
                   @click="deleteOrder(order.id)"
@@ -114,6 +152,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { showToast, showDialog } from "vant";
+import { useUserStore } from "@/stores/user";
 import {
   getOrderList,
   getOrderStatistics,
@@ -126,6 +165,7 @@ import type { OrderInfo, OrderStatistics } from "@/types/order";
 import { formatTime } from "@/utils/time";
 
 const router = useRouter();
+const userStore = useUserStore();
 
 // 状态管理
 const activeTab = ref(0);
@@ -136,8 +176,8 @@ const orders = ref<OrderInfo[]>([]);
 const statistics = ref<OrderStatistics>({
   total: 0,
   pendingPay: 0,
-  pendingShip: 0,
-  pendingReceive: 0,
+  producing: 0,
+  shipped: 0,
   completed: 0,
 });
 
@@ -153,7 +193,7 @@ const loadStatistics = async () => {
 // 加载订单列表
 const loadOrders = async () => {
   try {
-    const list = await getOrderList();
+    const list = await getOrderList(userStore.userInfo.userId);
     if (refreshing.value) {
       orders.value = list;
       refreshing.value = false;
@@ -196,7 +236,14 @@ const cancelOrder = async (id: number) => {
 
     await updateOrderStatus(id, OrderStatus.CANCELED);
     showToast("取消成功");
-    onRefresh();
+
+    // 重置列表状态
+    orders.value = [];
+    finished.value = false;
+    loading.value = true;
+
+    // 重新加载数据
+    await Promise.all([loadOrders(), loadStatistics()]);
   } catch (error) {
     console.error("取消订单失败:", error);
   }
@@ -213,7 +260,7 @@ const viewLogistics = (order: OrderInfo) => {
 };
 
 // 确认收货
-const confirmReceiveOrder = async (id: number) => {
+const confirmReceive = async (id: number) => {
   try {
     await showDialog({
       title: "确认收货",
@@ -223,14 +270,21 @@ const confirmReceiveOrder = async (id: number) => {
 
     await confirmReceive(id);
     showToast("确认收货成功");
-    onRefresh();
+
+    // 重置列表状态
+    orders.value = [];
+    finished.value = false;
+    loading.value = true;
+
+    // 重新加载数据
+    await Promise.all([loadOrders(), loadStatistics()]);
   } catch (error) {
     console.error("确认收货失败:", error);
   }
 };
 
 // 删除订单
-const deleteOrderItem = async (id: number) => {
+const deleteOrder = async (id: number) => {
   try {
     await showDialog({
       title: "删除订单",
@@ -240,9 +294,40 @@ const deleteOrderItem = async (id: number) => {
 
     await deleteOrder(id);
     showToast("删除成功");
-    onRefresh();
+
+    // 重置列表状态
+    orders.value = [];
+    finished.value = false;
+    loading.value = true;
+
+    // 重新加载数据
+    await Promise.all([loadOrders(), loadStatistics()]);
   } catch (error) {
     console.error("删除订单失败:", error);
+  }
+};
+
+// 申请退款
+const applyRefund = async (id: number) => {
+  try {
+    await showDialog({
+      title: "申请退款",
+      message: "确定要申请退款吗？",
+      showCancelButton: true,
+    });
+
+    await updateOrderStatus(id, OrderStatus.REFUNDED);
+    showToast("申请退款成功");
+
+    // 重置列表状态
+    orders.value = [];
+    finished.value = false;
+    loading.value = true;
+
+    // 重新加载数据
+    await Promise.all([loadOrders(), loadStatistics()]);
+  } catch (error) {
+    console.error("申请退款失败:", error);
   }
 };
 
@@ -286,20 +371,26 @@ onMounted(() => {
       font-weight: 500;
 
       &.status-0 {
-        color: #969799;
-      } // 已取消
-      &.status-1 {
         color: #ff976a;
-      } // 待付款
-      &.status-2 {
+      } // 待支付
+      &.status-1 {
         color: #07c160;
-      } // 待发货
-      &.status-3 {
+      } // 已支付
+      &.status-2 {
         color: #1989fa;
-      } // 待收货
+      } // 生产中
+      &.status-3 {
+        color: #07c160;
+      } // 已发货
       &.status-4 {
         color: #323233;
       } // 已完成
+      &.status-5 {
+        color: #969799;
+      } // 已取消
+      &.status-6 {
+        color: #ee0a24;
+      } // 已退款
     }
   }
 
@@ -327,7 +418,5 @@ onMounted(() => {
     padding: 12px;
     border-top: 1px solid #f5f5f5;
   }
-}
-</style> 
 }
 </style> 

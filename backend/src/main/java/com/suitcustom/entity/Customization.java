@@ -64,6 +64,11 @@ public class Customization implements Serializable {
   private Map<String, Object> options;
 
   /**
+   * 收货人信息
+   */
+  private Map<String, String> receiverInfo;
+
+  /**
    * 备注
    */
   private String remark;

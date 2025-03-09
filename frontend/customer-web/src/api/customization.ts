@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import type { ApiResponse, CreateCustomizationParams } from '@/types/api'
+import type { CustomizationInfo } from '@/types/customization'
 
 // 定制信息接口
 export interface CustomizationInfo {
@@ -58,24 +59,27 @@ export interface UpdateCustomizationParams {
 }
 
 /**
- * 创建定制
- */
-export function createCustomization(data: CreateCustomizationParams) {
-  return request.post<number>('/customization', data)
-}
-
-/**
  * 获取定制详情
+ * @param id 定制ID
  */
-export function getCustomization(id: number) {
+export function getCustomizationDetail(id: number) {
   return request.get<CustomizationInfo>(`/customization/${id}`)
 }
 
 /**
  * 获取定制列表
+ * @param userId 用户ID
  */
-export function getCustomizationList(params?: any) {
-  return request.get<CustomizationInfo[]>('/customization/list', { params })
+export function getCustomizationList(userId: number) {
+  return request.get<CustomizationInfo[]>('/customization/list', { params: { userId } })
+}
+
+/**
+ * 创建定制
+ * @param data 定制信息
+ */
+export function createCustomization(data: Omit<CustomizationInfo, 'id' | 'code' | 'status' | 'progress' | 'createTime' | 'updateTime'>) {
+  return request.post<number>('/customization', data)
 }
 
 /**
@@ -108,16 +112,20 @@ export function batchDeleteCustomization(ids: number[]) {
 
 /**
  * 更新定制状态
+ * @param id 定制ID
+ * @param status 定制状态
  */
 export function updateCustomizationStatus(id: number, status: number) {
-  return request.put<void>('/customization/status', null, { params: { id, status } })
+  return request.post(`/customization/${id}/status`, { status })
 }
 
 /**
  * 更新定制进度
+ * @param id 定制ID
+ * @param progress 定制进度
  */
 export function updateCustomizationProgress(id: number, progress: number) {
-  return request.put<void>('/customization/progress', null, { params: { id, progress } })
+  return request.post(`/customization/${id}/progress`, { progress })
 }
 
 /**

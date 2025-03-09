@@ -1,7 +1,8 @@
 import request from './request'
+import type { UserInfo, UserAddressInfo } from '@/types/user'
 
-// 用户信息接口
-export interface UserInfo {
+// 登录用户信息接口
+export interface LoginUserInfo {
   userId: number
   username: string
   name: string
@@ -95,5 +96,24 @@ export function checkPhone(phone: string) {
     url: '/user/check/phone',
     method: 'get',
     params: { phone }
+  })
+}
+
+/**
+ * 获取用户信息
+ */
+export function getUserInfo(userId: number) {
+  return request.get<{ code: number, data: UserInfo, message: string }>('/user/info', {
+    params: { userId }
+  })
+}
+
+/**
+ * 更新用户地址信息
+ */
+export function updateUserAddress(userId: number, data: UserAddressInfo) {
+  return request.put<void>('/user/address', {
+    id:userId,
+    ...data
   })
 } 

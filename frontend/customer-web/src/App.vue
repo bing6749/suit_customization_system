@@ -4,7 +4,7 @@
     <van-tabbar v-model="active" route>
       <van-tabbar-item to="/" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item to="/customize" icon="apps-o">定制</van-tabbar-item>
-      <van-tabbar-item to="/order" icon="orders-o">订单</van-tabbar-item>
+      <van-tabbar-item to="/order/list" icon="orders-o">订单</van-tabbar-item>
       <van-tabbar-item to="/mine" icon="user-o">我的</van-tabbar-item>
     </van-tabbar>
   </div>

@@ -1,11 +1,13 @@
 import request from '@/utils/request'
-import type { OrderInfo } from '@/types/order'
+import type { OrderInfo, OrderStatistics } from '@/types/order'
 
 /**
  * 获取订单列表
  */
-export function getOrderList() {
-  return request.get<OrderInfo[]>('/order/list')
+export function getOrderList(userId: number) {
+  return request.get<OrderInfo[]>('/order/list', {
+    params: { userId }
+  })
 }
 
 /**
@@ -66,7 +68,7 @@ export function batchDeleteOrders(ids: number[]) {
  * 更新订单状态
  */
 export function updateOrderStatus(id: number, status: number) {
-  return request.put<void>('/order/status', null, { params: { id, status } })
+  return request.put('/order/status', null, { params: { id, status } })
 }
 
 /**
@@ -87,20 +89,12 @@ export function shipOrder(id: number, trackingNo: string) {
  * 确认收货
  */
 export function confirmReceive(id: number) {
-  return request.put<void>('/order/receive', null, { params: { id } })
+  return request.post(`/order/${id}/receive`)
 }
 
 /**
  * 获取订单统计信息
  */
-export interface OrderStatistics {
-  total: number
-  pendingPay: number
-  pendingShip: number
-  pendingReceive: number
-  completed: number
-}
-
 export function getOrderStatistics() {
   return request.get<OrderStatistics>('/order/statistics')
 } 

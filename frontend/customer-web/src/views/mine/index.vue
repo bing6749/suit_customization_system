@@ -5,22 +5,22 @@
         <img src="https://fastly.jsdelivr.net/npm/@vant/assets/cat.jpeg" />
       </div>
       <div class="info">
-        <h3>{{ userStore.userInfo?.name || "未登录" }}</h3>
-        <p>{{ userStore.userInfo?.phone || "点击登录" }}</p>
+        <h3>{{ userStore.userInfo?.username || "未登录" }}</h3>
+        <p>{{ userStore.userInfo?.name || "点击登录" }}</p>
       </div>
     </div>
 
     <div class="menu-list">
       <van-cell-group inset>
         <van-cell title="我的定制" is-link to="/customize" />
-        <van-cell title="我的订单" is-link to="/order" />
-        <van-cell title="收货地址" is-link />
+        <van-cell title="我的订单" is-link to="/order/list" />
+        <van-cell title="收货地址" is-link to="/address/edit" />
         <van-cell title="联系客服" is-link />
       </van-cell-group>
 
       <van-cell-group inset class="mt">
         <van-cell title="账号设置" is-link />
-        <van-cell title="关于我们" is-link />
+        <van-cell title="关于我们" is-link to="/about" />
       </van-cell-group>
     </div>
 

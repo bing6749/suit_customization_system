@@ -45,14 +45,19 @@ public class User implements Serializable {
   private String email;
 
   /**
-   * 性别（0-未知，1-男，2-女）
-   */
-  private Integer gender;
-
-  /**
    * 头像
    */
   private String avatar;
+
+  /**
+   * 收货地址
+   */
+  private String address;
+
+  /**
+   * 性别（0-未知，1-男，2-女）
+   */
+  private Integer gender;
 
   /**
    * 角色（0-普通用户，1-管理员）

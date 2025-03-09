@@ -173,4 +173,20 @@ public class UserController {
     userService.deleteBatchIds(ids);
     return R.ok();
   }
+
+  /**
+   * 更新用户地址信息
+   */
+  @PutMapping("/address")
+  public R<Void> updateAddress( @RequestBody User user) {
+    User existingUser = userService.getById(user.getId());
+    if (existingUser == null) {
+      return R.fail("用户不存在");
+    }
+    existingUser.setName(user.getName());
+    existingUser.setPhone(user.getPhone());
+    existingUser.setAddress(user.getAddress());
+    userService.update(existingUser);
+    return R.ok();
+  }
 }

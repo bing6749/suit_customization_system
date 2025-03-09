@@ -1,17 +1,19 @@
 package com.suitcustom.service.impl;
 
 import com.suitcustom.entity.Customization;
+import com.suitcustom.entity.Order;
+import com.suitcustom.entity.User;
 import com.suitcustom.mapper.CustomizationMapper;
 import com.suitcustom.service.CustomizationService;
+import com.suitcustom.service.OrderService;
+import com.suitcustom.service.UserService;
 import com.suitcustom.common.exception.BusinessException;
 import com.suitcustom.utils.CodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -25,6 +27,12 @@ public class CustomizationServiceImpl implements CustomizationService {
 
   @Resource
   private CustomizationMapper customizationMapper;
+
+  @Resource
+  private OrderService orderService;
+
+  @Resource
+  private UserService userService;
 
   @Override
   public Customization getById(Long id) {
@@ -57,7 +65,44 @@ public class CustomizationServiceImpl implements CustomizationService {
     customization.setCreateTime(new Date());
     customization.setUpdateTime(new Date());
 
+    // 插入定制记录
     customizationMapper.insert(customization);
+
+    // 创建订单
+    Order order = new Order();
+    order.setUserId(customization.getUserId());
+    order.setCustomizationId(customization.getId());
+
+    // 设置订单金额，如果定制价格为空则设置为0
+    BigDecimal amount = customization.getPrice() != null ? customization.getPrice() : BigDecimal.ZERO;
+    // 直接使用原始金额，不需要转换为分
+    order.setAmount(amount);
+
+    // 设置订单状态为待付款
+    order.setStatus(1);
+
+    // 生成订单编号
+    order.setOrderNo(CodeGenerator.generateOrderNo());
+
+    // 获取用户信息作为默认收货人信息
+    User user = userService.getById(customization.getUserId());
+    if (user == null) {
+      throw new BusinessException("用户不存在");
+    }
+
+    // 优先使用定制中的收货人信息，如果没有则使用用户默认信息
+    Map<String, String> receiverInfo = customization.getReceiverInfo();
+    order.setReceiverName(user.getName());
+    order.setReceiverPhone(user.getPhone());
+    if (!Objects.equals(user.getAddress(), "")) {
+      order.setReceiverAddress(user.getAddress());
+    } else {
+      order.setReceiverAddress("default address");
+    }
+
+    // 创建订单
+    orderService.create(order);
+
     return customization.getId();
   }
 

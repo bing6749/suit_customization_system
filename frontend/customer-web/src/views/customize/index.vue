@@ -531,7 +531,7 @@ const onSubmit = async () => {
       styleId: selectedStyle.value.id,
       fabricId: selectedFabric.value.id,
       name: `${selectedStyle.value.name} - ${selectedFabric.value.name}`,
-      price: totalPrice.value,
+      price: totalPrice.value/100,
       sizeInfo: {
         height: sizeForm.value.height,
         weight: sizeForm.value.weight,

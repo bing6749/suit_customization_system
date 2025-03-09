@@ -1,37 +1,46 @@
-export interface OrderInfo {
-  id: number;
-  userId: number;
-  customizationId: number;
-  orderNo: string;
-  amount: number;
-  payType: number;
-  receiverName: string;
-  receiverPhone: string;
-  receiverAddress: string;
-  remark: string;
-  status: number; // 0:已取消,1:待付款,2:待发货,3:待收货,4:已完成
-  payTime?: string;
-  shipTime?: string;
-  receiveTime?: string;
-  createTime: string;
-  updateTime: string;
+export enum OrderStatus {
+  PENDING_PAY = 0, // 待支付
+  PAID = 1, // 已支付
+  PRODUCING = 2, // 生产中
+  SHIPPED = 3, // 已发货
+  COMPLETED = 4, // 已完成
+  CANCELED = 5, // 已取消
+  REFUNDED = 6 // 已退款
 }
 
-export const OrderStatus = {
-  CANCELED: 0,
-  PENDING_PAY: 1,
-  PENDING_SHIP: 2,
-  PENDING_RECEIVE: 3,
-  COMPLETED: 4,
-} as const;
-
 export const OrderStatusText = {
-  [OrderStatus.CANCELED]: '已取消',
-  [OrderStatus.PENDING_PAY]: '待付款',
-  [OrderStatus.PENDING_SHIP]: '待发货',
-  [OrderStatus.PENDING_RECEIVE]: '待收货',
+  [OrderStatus.PENDING_PAY]: '待支付',
+  [OrderStatus.PAID]: '已支付',
+  [OrderStatus.PRODUCING]: '生产中',
+  [OrderStatus.SHIPPED]: '已发货',
   [OrderStatus.COMPLETED]: '已完成',
-} as const;
+  [OrderStatus.CANCELED]: '已取消',
+  [OrderStatus.REFUNDED]: '已退款'
+} as const
+
+export interface OrderInfo {
+  id: number
+  orderNo: string
+  userId: number
+  customizationId: number
+  amount: number
+  status: OrderStatus
+  payType?: number
+  receiverName: string
+  receiverPhone: string
+  receiverAddress: string
+  remark?: string
+  createTime: string
+  updateTime: string
+}
+
+export interface OrderStatistics {
+  total: number
+  pendingPay: number
+  producing: number
+  shipped: number
+  completed: number
+}
 
 export const PayType = {
   WECHAT: 1,
