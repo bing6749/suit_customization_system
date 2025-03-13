@@ -90,7 +90,7 @@ public class ProductionStatusServiceImpl implements ProductionStatusService {
   @Override
   @Transactional(rollbackFor = Exception.class)
   public int updateStage(Long id, Integer stage) {
-    if (stage < 1 || stage > 5) {
+    if (stage < 1 || stage > 7) {
       throw new BusinessException("生产阶段必须在1-5之间");
     }
     return productionStatusMapper.updateStage(id, stage);

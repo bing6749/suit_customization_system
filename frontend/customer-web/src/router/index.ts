@@ -93,6 +93,14 @@ const router = createRouter({
       meta: {
         title: '关于我们'
       }
+    },
+    {
+      path:'/feedback',
+      name:'Feedback',
+      component:()=>import('@/views/service/index.vue'),
+      meta:{
+        title:'反馈'
+      }
     }
   ]
 })

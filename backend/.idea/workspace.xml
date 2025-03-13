@@ -6,28 +6,37 @@
   <component name="ChangeListManager">
     <list default="true" id="3d4441e1-f7af-45ce-bcd2-0629ded491c8" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/entity/Customization.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/entity/Customization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/service/impl/CustomizationServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/service/impl/CustomizationServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/service/impl/OrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/service/impl/OrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/utils/CodeGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/utils/CodeGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/SuitCustomApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/SuitCustomApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/controller/AfterSaleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/controller/AfterSaleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/entity/ProductionStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/entity/ProductionStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/suitcustom/service/impl/ProductionStatusServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/suitcustom/service/impl/ProductionStatusServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/controller/AfterSaleController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/controller/AfterSaleController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/entity/Customization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/entity/Customization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/handler/JsonTypeHandler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/handler/JsonTypeHandler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/handler/JsonTypeHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/handler/JsonTypeHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/entity/ProductionStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/entity/ProductionStatus.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/service/impl/CustomizationServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/service/impl/CustomizationServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/service/impl/OrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/service/impl/OrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/utils/CodeGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/utils/CodeGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/customer-web/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/customer-web/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/customer-web/src/api/customization.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/customer-web/src/api/customization.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/customer-web/src/api/order.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/customer-web/src/api/order.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/suitcustom/service/impl/ProductionStatusServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/suitcustom/service/impl/ProductionStatusServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/customer-web/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/customer-web/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/customer-web/src/types/order.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/customer-web/src/types/order.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/customer-web/src/views/customize/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/customer-web/src/views/customize/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/customer-web/src/views/order/list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/customer-web/src/views/order/list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/customer-web/src/views/mine/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/customer-web/src/views/mine/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/axios.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/axios.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/axios.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/axios.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/axios.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/axios.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/browser/axios.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/browser/axios.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/browser/axios.cjs.map" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/browser/axios.cjs.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/esm/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/esm/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/esm/axios.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/esm/axios.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/esm/axios.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/esm/axios.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/esm/axios.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/esm/axios.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/node/axios.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/node/axios.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/dist/node/axios.cjs.map" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/dist/node/axios.cjs.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/lib/adapters/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/lib/adapters/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/lib/env/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/lib/env/data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../node_modules/axios/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../node_modules/axios/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +106,8 @@
       <workItem from="1740992305510" duration="10001000" />
       <workItem from="1741160917317" duration="3041000" />
       <workItem from="1741174705464" duration="14468000" />
-      <workItem from="1741499138825" duration="6410000" />
+      <workItem from="1741499138825" duration="14160000" />
+      <workItem from="1741869665030" duration="3409000" />
     </task>
     <servers />
   </component>

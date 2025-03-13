@@ -1,0 +1,40 @@
+// 全局样式
+
+// 重置样式
+* {
+  box-sizing: border-box;
+}
+
+// 修改 Element Plus 默认样式
+.el-menu {
+  border-right: none !important;
+}
+
+.el-menu-item.is-active {
+  background-color: #1f2d3d !important;
+}
+
+.el-menu--collapse .el-menu-item span,
+.el-menu--collapse .el-sub-menu__title span {
+  display: none;
+}
+
+// 滚动条样式
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c0c4cc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #909399;
+}

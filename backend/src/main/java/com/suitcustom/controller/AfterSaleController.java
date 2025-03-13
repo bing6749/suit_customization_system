@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -105,6 +106,18 @@ public class AfterSaleController {
   public CommonResult<Void> handle(@RequestParam Long id, @RequestParam String result,
       @RequestParam String handler) {
     afterSaleService.handle(id, result, handler);
+    return CommonResult.success(null);
+  }
+
+  /**
+   * 创建售后服务
+   */
+  @PostMapping("/feedback")
+  public CommonResult<Void> createFeedback(@RequestBody AfterSale afterSale) {
+    afterSale.setType(1); // 1表示用户反馈
+    afterSale.setStatus(0); // 0表示待处理
+    afterSale.setCreateTime(new Date());
+    afterSaleService.create(afterSale);
     return CommonResult.success(null);
   }
 }

@@ -15,7 +15,7 @@
         <van-cell title="我的定制" is-link to="/customize" />
         <van-cell title="我的订单" is-link to="/order/list" />
         <van-cell title="收货地址" is-link to="/address/edit" />
-        <van-cell title="联系客服" is-link />
+        <van-cell title="联系客服" is-link to="/feedback" />
       </van-cell-group>
 
       <van-cell-group inset class="mt">
