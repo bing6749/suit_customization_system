@@ -3,10 +3,10 @@
     <!-- 订单状态切换 -->
     <van-tabs v-model="activeTab" sticky>
       <van-tab title="全部" />
-      <van-tab :title="`待支付(${statistics.pendingPay || 0})`" />
-      <van-tab :title="`生产中(${statistics.producing || 0})`" />
-      <van-tab :title="`已发货(${statistics.shipped || 0})`" />
-      <van-tab :title="`已完成(${statistics.completed || 0})`" />
+      <van-tab :title="`待支付`" />
+      <van-tab :title="`生产中`" />
+      <van-tab :title="`已发货`" />
+      <van-tab :title="`已完成`" />
     </van-tabs>
 
     <!-- 订单列表 -->

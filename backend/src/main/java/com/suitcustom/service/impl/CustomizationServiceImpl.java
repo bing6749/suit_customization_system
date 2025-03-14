@@ -103,7 +103,7 @@ public class CustomizationServiceImpl implements CustomizationService {
     // 创建订单
     orderService.create(order);
 
-    return customization.getId();
+    return order.getId();
   }
 
   @Override

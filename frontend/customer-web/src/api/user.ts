@@ -33,7 +33,7 @@ export const login = (data: LoginParams): Promise<LoginResponse> => {
 
 // 退出登录API
 export const logout = () => {
-  return request.post('/api/user/logout')
+  return request.post('/user/logout')
 }
 
 export interface RegisterParams {
@@ -113,7 +113,7 @@ export function getUserInfo(userId: number) {
  */
 export function updateUserAddress(userId: number, data: UserAddressInfo) {
   return request.put<void>('/user/address', {
-    id:userId,
+    id: userId,
     ...data
   })
 } 

@@ -14,6 +14,7 @@ com\suitcustom\common\utils\SecurityUtils.class
 com\suitcustom\controller\AfterSaleController.class
 com\suitcustom\common\GlobalExceptionHandler.class
 com\suitcustom\mapper\ProductionStatusMapper.class
+com\suitcustom\handler\JsonTypeHandler$1.class
 com\suitcustom\mapper\FabricMapper.class
 com\suitcustom\common\api\ResultCode.class
 com\suitcustom\dto\OrderRequest.class
@@ -21,12 +22,14 @@ com\suitcustom\entity\Consultation.class
 com\suitcustom\controller\AuthController.class
 com\suitcustom\mapper\AfterSaleMapper.class
 com\suitcustom\common\R.class
+com\suitcustom\utils\CodeGenerator.class
 com\suitcustom\entity\Style.class
 com\suitcustom\service\impl\OrderServiceImpl.class
 com\suitcustom\entity\AfterSale.class
 com\suitcustom\service\UserService.class
 com\suitcustom\controller\UserController.class
 com\suitcustom\security\JwtAuthenticationFilter.class
+com\example\suitcustomization\config\CorsFilter.class
 com\suitcustom\common\exception\BusinessException.class
 com\suitcustom\config\SecurityConfig.class
 com\suitcustom\service\impl\ProductionStatusServiceImpl.class
@@ -36,9 +39,11 @@ com\suitcustom\entity\ProductionStatus.class
 com\suitcustom\service\AfterSaleService.class
 com\suitcustom\security\JwtTokenUtil.class
 com\suitcustom\service\impl\AfterSaleServiceImpl.class
+com\example\suitcustomization\config\WebMvcConfig.class
 com\suitcustom\handler\JsonTypeHandler.class
 com\suitcustom\common\api\CommonResult.class
 com\suitcustom\controller\ConsultationController.class
+com\example\suitcustomization\config\SecurityConfig.class
 com\suitcustom\mapper\OrderMapper.class
 com\suitcustom\entity\Order.class
 com\suitcustom\entity\Customization.class
@@ -52,6 +57,7 @@ com\suitcustom\common\ApiResponse.class
 com\suitcustom\service\OrderService.class
 com\suitcustom\controller\FabricController.class
 com\suitcustom\security\JwtAuthenticationEntryPoint.class
+com\suitcustom\SuitCustomApplication$1.class
 com\suitcustom\common\api\IErrorCode.class
 com\suitcustom\controller\OrderController.class
 com\suitcustom\dto\LoginResponse.class
@@ -59,4 +65,5 @@ com\suitcustom\mapper\CustomizationMapper.class
 com\suitcustom\controller\ProductionStatusController.class
 com\suitcustom\service\impl\FabricServiceImpl.class
 com\suitcustom\dto\LoginRequest.class
+com\suitcustom\controller\CustomizationController.class
 com\suitcustom\entity\User.class

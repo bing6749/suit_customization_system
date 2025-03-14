@@ -17,9 +17,10 @@ import java.util.Arrays;
 
 /**
  * Spring Security 配置类
+ * 此配置类已被禁用，使用com.suitcustom.config.SecurityConfig代替
  */
-@Configuration
-@EnableWebSecurity
+// @Configuration
+// @EnableWebSecurity
 public class SecurityConfig {
 
   /**
@@ -37,7 +38,7 @@ public class SecurityConfig {
    * @return SecurityFilterChain
    * @throws Exception 配置异常
    */
-  @Bean
+  // @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     System.out.println("==========配置SecurityFilterChain==========");
 
@@ -67,12 +68,12 @@ public class SecurityConfig {
    * 
    * @return CorsConfigurationSource
    */
-  @Bean
+  // @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     System.out.println("==========配置CorsConfigurationSource==========");
 
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(Arrays.asList("http://localhost:3003")); // 明确指定前端域名
+    configuration.setAllowedOrigins(Arrays.asList("http://localhost:3001", "http://localhost:3003")); // 添加前端实际运行的端口
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
     configuration.setAllowCredentials(true);

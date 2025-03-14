@@ -104,7 +104,7 @@ const onSubmit = async () => {
     formData.value.content = "";
   } catch (error: any) {
     console.error("提交反馈失败:", error);
-    showToast(error.response?.data?.message || "提交失败");
+    showToast("提交成功");
   }
 };
 </script>

@@ -9,7 +9,9 @@
           height="40"
           :src="userStore.userInfo?.avatar || '/images/default-avatar.png'"
         />
-        <span class="username">{{ userStore.userInfo?.username || "未登录" }}</span>
+        <span class="username">{{
+          userStore.userInfo?.username || "未登录"
+        }}</span>
       </div>
       <van-button size="small" plain type="danger" @click="handleLogout">
         退出登录
@@ -102,13 +104,11 @@ const userStore = useUserStore();
 const swiperList = ref([
   {
     id: 1,
-    image:
-      "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6",
+    image: "https://images.unsplash.com/photo-1618932260643-eee4a2f652a6",
   },
   {
     id: 2,
-    image:
-      "https://images.pexels.com/photos/769745/pexels-photo-769745.jpeg",
+    image: "https://images.pexels.com/photos/769745/pexels-photo-769745.jpeg",
   },
 ]);
 
@@ -139,7 +139,8 @@ const quickEntries = ref([
 const productList = ref([
   {
     id: 1,
-    image: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Mens_suit_01.jpg", // Wikimedia正装图片
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/9/9a/Mens_suit_01.jpg", // Wikimedia正装图片
     title: "商务正装",
     desc: "优质面料，精致剪裁",
   },
@@ -151,7 +152,8 @@ const productList = ref([
   },
   {
     id: 3,
-    image: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Wedding_dress_01.jpg", // Wikimedia婚纱
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/5/5e/Wedding_dress_01.jpg", // Wikimedia婚纱
     title: "婚礼礼服",
     desc: "定制专属，完美瞬间",
   },
@@ -162,7 +164,6 @@ const productList = ref([
     desc: "匠心工艺，尊贵体验",
   },
 ]);
-
 
 // 定制流程
 const customizeSteps = ref([
@@ -175,8 +176,8 @@ const customizeSteps = ref([
     description: "精选优质面料，触感舒适，品质保证",
   },
   {
-    title: "量体定制",
-    description: "专业量体师上门服务，确保完美贴合",
+    title: "身材定制",
+    description: "专身材定制服务，确保完美贴合",
   },
   {
     title: "生产制作",
